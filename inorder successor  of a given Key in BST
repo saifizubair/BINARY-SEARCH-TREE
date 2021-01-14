@@ -1,0 +1,92 @@
+
+package com.company;
+
+import java.io.*;
+import java.lang.*;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) {
+        abc tree =new abc();
+        tree.insert(8);
+        tree.insert(3);
+        tree.insert(6);
+        tree.insert(10);
+        tree.insert(4);
+        tree.insert(7);
+        tree.insert(1);
+        tree.insert(14);
+        tree.insert(13);
+        node inordersuccesor = tree.getinordersucessor(tree.root, 10);
+        if (inordersuccesor!=null){
+            System.out.println(inordersuccesor.data);
+        }
+        else
+            System.out.println("inorder succesor doesn't exist");
+    }
+}
+class node {
+    int data;
+    node left;
+    node right;
+
+    public node(int data) {
+        this.data = data;
+        this.left=null;
+        this.right=null;
+    }
+}
+class abc {
+    public node root = null;
+
+    public node insert(node node, int value) {
+        if (node == null) {
+            return new node(value);
+        }
+        if (value < node.data) {
+            node.left = insert(node.left, value);
+        } else if (value > node.data) {
+            node.right = insert(node.right, value);
+        } else
+            return node;
+        return node;
+    }
+
+    public void insert(int value) {
+        root = insert(root, value);
+    }
+
+    public node getinordersucessor(node node, int value) {
+        if (node == null) {
+            return null;
+        }
+        node inordersuccersor = null;
+        while (node != null) {
+            if (value < node.data) {
+                inordersuccersor = node;
+                node = node.left;
+            } else if (value > node.data) {
+                node = node.right;
+            } else {
+                if (node.right != null) {
+                    inordersuccersor = getsuccesor(node);
+                }
+                break;
+            }
+        }
+        return node != null ? inordersuccersor : null;
+    }
+
+    public node getsuccesor(node node)
+    {
+        if (node==null){
+            return null;
+        }
+        node temp =node.right;
+        while (temp.left!=null){
+            temp=temp.left;
+        }
+        return temp;
+    }
+}
