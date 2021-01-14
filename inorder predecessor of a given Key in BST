@@ -1,0 +1,90 @@
+
+package com.company;
+
+import java.io.*;
+import java.lang.*;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) {
+        abc tree =new abc();
+        tree.insert(8);
+        tree.insert(15);
+        tree.insert(6);
+        tree.insert(2);
+        tree.insert(7);
+        tree.insert(20);
+        tree.insert(5);
+        node inorderprdecessor = tree.inorderpredecessor(tree.root, 7);
+        if (inorderprdecessor!=null){
+            System.out.println(inorderprdecessor.data);
+        }
+        else {
+            System.out.println("inorder predecessor doesn't exist");
+        }
+    }
+}
+class node {
+    int data;
+    node left;
+    node right;
+
+    public node(int data) {
+        this.data = data;
+        this.left=null;
+        this.right=null;
+    }
+}
+class abc{
+    public node root=null;
+    public node insert(node node ,int vaue){
+        if (node==null){
+            return new node(vaue);
+        }
+        if (vaue<node.data){
+            node.left=insert(node.left,vaue);
+        }
+        else if (vaue>node.data){
+            node.right=insert(node.right,vaue);
+        }
+        else
+            return node;
+        return node;
+    }
+    public node insert(int value){
+        return root=insert(root,value);
+    }
+    public node inorderpredecessor(node node,int value){
+        if (node==null){
+            return null;
+        }
+        node inorderpredecessor=null;
+        while (node!=null){
+            if (value<node.data){
+                node =node.left;
+            }
+            else if (value>node.data){
+                inorderpredecessor=node;
+                node=node.right;
+            }
+            else {
+                if (node.left!=null){
+                    inorderpredecessor=getinorderprecdessor(node);
+                }
+                break;
+            }
+        }
+        return node!=null?inorderpredecessor:null;
+    }
+    public node getinorderprecdessor(node node ){
+        if (node==null){
+            return null;
+        }
+        node temp =node.left;
+        while (temp!=null){
+            temp=temp.right;
+        }
+        return temp;
+    }
+}
