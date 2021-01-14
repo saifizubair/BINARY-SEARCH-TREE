@@ -1,0 +1,103 @@
+
+package com.company;
+
+import java.io.*;
+import java.lang.*;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        abc tree =new abc();
+        tree.add(11);
+        tree.add(6);
+        tree.add(8);
+        tree.add(19);
+        tree.add(4);
+        tree.add(10);
+        tree.add(5);
+        tree.preorder(tree.root);
+        tree.remove(tree.root, 8);
+        System.out.println();
+        tree.preorder(tree.root);
+    }
+}
+class node{
+    int data;
+    node left ;
+    node right;
+
+    public node(int data) {
+        this.data = data;
+        this.left=null;
+        this.right=null;
+    }
+}
+class abc{
+    public node root=null;
+    public node addrecursive(node current , int value){
+        if(current==null){
+            return new node(value);
+        }
+        if(value< current.data){
+            current.left=addrecursive(current.left, value);
+        }
+        else if (value> current.data){
+            current.right=addrecursive(current.right,value);
+        }
+        else {
+            return current;
+        }
+        return current;
+    }
+
+    public void add(int value){
+        root =addrecursive(root,value);
+    }
+    public void preorder(node node ){
+        if(node!=null){
+            System.out.print(" "+ node.data);
+            preorder(node.left);
+            preorder(node.right);
+
+        }
+    }
+    public node remove(node node ,int data){
+        if (node ==null){
+            return null;
+        }
+        if (data>node.data){
+            node.right=remove(node.right,data);
+        }
+        else if (data<node.data){
+            node.left=remove(node.left,data);
+        }
+        else {
+            // work
+            if (node.left!=null&&node.right!=null){
+                int lmax =max(node.left);
+                node.data=lmax;
+                node.left=remove(node.left,lmax);
+            }
+            else if (node.left!=null){
+                return node.left;
+            }
+            else if (node.right!=null){
+                return node.right;
+            }
+            else {
+                return null;
+            }
+        }
+        return node;
+    }
+    public int max(node node ){
+        if(node.right!=null){
+            return max(node.right);
+        }
+        else
+            return node.data;
+    }
+}
