@@ -1,0 +1,75 @@
+
+package com.company;
+
+import java.io.*;
+import java.lang.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class Main {
+
+    public static void main(String[] args) {
+        abc tree = new abc();
+        tree.insert(20);
+        tree.insert(8);
+        tree.insert(22);
+        tree.insert(4);
+        tree.insert(12);
+        tree.insert(10);
+        tree.insert(14);
+        node result=tree.kthsmallest(tree.root, 4);
+        if (result==null){
+            System.out.println("not found");
+        }
+        else {
+            System.out.println(result.data);
+        }
+    }
+}
+class node{
+    int data;
+    node left;
+    node right;
+
+    public node(int data) {
+        this.data = data;
+        this.left=null;
+        this.right=null;
+    }
+}
+class abc{
+    static int count =0;
+    public node root=null;
+    public node insert(node node ,int value){
+        if (node==null){
+            return new node(value);
+        }
+        else if (value<node.data){
+            node.left=insert(node.left,value);
+        }
+        else if (value>node.data){
+            node.right=insert(node.right,value);
+        }
+        else
+            return node;
+        return node;
+    }
+    public node insert(int value){
+        return root=insert(root,value);
+    }
+  public  node kthsmallest(node root,int k){
+        if (root==null){
+            return null;
+        }
+        node left =kthsmallest(root.left,k);
+        if (left!=null){
+            return left;
+        }
+        count++;
+        if (count==k){
+            return root;
+        }
+        return kthsmallest(root.right,k);
+  }
+}
