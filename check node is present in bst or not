@@ -3,29 +3,28 @@ package com.company;
 
 import java.io.*;
 import java.lang.*;
-import java.sql.Struct;
 import java.util.Map;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+
         abc tree =new abc();
-        tree.insert(8);
-        tree.insert(3);
-        tree.insert(6);
-        tree.insert(10);
-        tree.insert(4);
-        tree.insert(7);
-        tree.insert(1);
-        tree.insert(14);
-        tree.insert(13);
-      System.out.println(tree.ifnodepresent(tree.root, 7));
+        tree.add(11);
+        tree.add(6);
+        tree.add(8);
+        tree.add(19);
+        tree.add(4);
+        tree.add(10);
+        tree.add(5);
+        System.out.print(tree.ifnodepresent(tree.root, 7));
+
     }
 }
-class node {
+class node{
     int data;
-    node left;
+    node left ;
     node right;
 
     public node(int data) {
@@ -36,41 +35,40 @@ class node {
 }
 class abc{
     public node root=null;
-    public node insert(node node , int value){
-        if (node==null){
+    public node addrecursive(node current , int value){
+        if(current==null){
             return new node(value);
         }
-        else if (value<node.data){
-            node.left =insert(node.left,value);
+        if(value< current.data){
+            current.left=addrecursive(current.left, value);
         }
-        else if (value>node.data){
-            node.right =insert(node.right,value);
+        else if (value> current.data){
+            current.right=addrecursive(current.right,value);
         }
         else {
-            return node;
+            return current;
         }
-        return node;
+        return current;
     }
-    public void insert(int value){
-        root =insert(root,value);
+
+    public void add(int value){
+        root =addrecursive(root,value);
     }
-    public boolean ifnodepresent(node node ,int value){
-        if (node==null){
+    public boolean ifnodepresent(node current ,int value){
+        if (current ==null){
             return false;
         }
-        boolean ispresent=false;
-        while (node!=null){
-            if (value<node.data){
-                node =node.left;
-            }
-            else if (value>node.data){
-                node =node.right;
-            }
-            else {
-                ispresent = true;
-                break;
-            }
+        if (current.data==value){
+            return true;
         }
-        return ispresent;
+        else if (value< current.data){
+           boolean res1 =ifnodepresent(current.left,value);
+           if (res1)return true;
+        }
+        else if (value> current.data){
+            boolean res2 =ifnodepresent(current.right,value);
+            if (res2)return true;
+        }
+        return false;
     }
 }
