@@ -1,0 +1,74 @@
+package com.company;
+
+
+import java.io.*;
+import java.lang.*;
+import java.util.Map;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        abc tree = new abc();
+        tree.root = new node(1);
+        tree.root.left = new node(2);
+        tree.root.right = new node(3);
+        tree.root.left.left = new node(4);
+        tree.root.left.right = new node(5);
+        boolean res =tree.isbst(tree.root);
+        if (res==true){
+            System.out.print(true);
+        }
+        else {
+            System.out.print(false);
+        }
+    }
+}
+
+class node {
+    int data;
+    node left;
+    node right;
+
+    public node(int data) {
+        this.data = data;
+        this.left=null;
+        this.right=null;
+    }
+}
+class abc{
+    public node root;
+    public node addrecusive(node node ,int value){
+        if (node==null){
+            return new node(value);
+        }
+        if (value<node.data){
+            node.left =addrecusive(node.left,value);
+        }
+        if (value>node.data){
+            node.right =addrecusive(node.right,value);
+        }
+        else {
+            return node;
+        }
+        return node;
+    }
+    public void insert(int value  ){
+        root =addrecusive(root ,value);
+    }
+    public boolean isbst(node node ){
+        if(node ==null){
+            return  true;
+        }
+        if (node.left!=null&&node.left.data>node.data){
+            return false;
+        }
+        if (node.right!=null&&node.right.data<node.data){
+            return false;
+        }
+        if (!isbst(node.left)||(!isbst(node.right))){
+            return false;
+        }
+        return true;
+    }
+}
