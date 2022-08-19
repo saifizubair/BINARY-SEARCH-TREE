@@ -1,15 +1,12 @@
 
-package com.company;
 
 import java.io.*;
 import java.lang.*;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class Main {
-
     public static void main(String[] args) {
-
         abc tree =new abc();
         tree.add(11);
         tree.add(6);
@@ -22,11 +19,13 @@ public class Main {
         tree.remove(tree.root, 8);
         System.out.println();
         tree.preorder(tree.root);
+
     }
+
 }
-class node{
+class node {
     int data;
-    node left ;
+    node left;
     node right;
 
     public node(int data) {
@@ -35,69 +34,58 @@ class node{
         this.right=null;
     }
 }
-class abc{
-    public node root=null;
-    public node addrecursive(node current , int value){
-        if(current==null){
+class  abc {
+    public node root =null;
+    public node addrecursive(node node , int value){
+        if (node==null){
             return new node(value);
         }
-        if(value< current.data){
-            current.left=addrecursive(current.left, value);
+        else if (value<node.data){
+            node.left =addrecursive(node.left,value);
         }
-        else if (value> current.data){
-            current.right=addrecursive(current.right,value);
+        else if (value>node.data){
+            node.right =addrecursive(node.right,value);
         }
-        else {
-            return current;
-        }
-        return current;
+            return node;
     }
-
     public void add(int value){
-        root =addrecursive(root,value);
+        root =addrecursive(root ,value);
     }
-    public void preorder(node node ){
-        if(node!=null){
-            System.out.print(" "+ node.data);
-            preorder(node.left);
-            preorder(node.right);
-
+    public node remove(node node,int value){
+        if (node==null){
+            return node;
         }
-    }
-    public node remove(node node ,int data){
-        if (node ==null){
-            return null;
+        if (value<node.data){
+            node.left =remove(node.left,value);
         }
-        if (data>node.data){
-            node.right=remove(node.right,data);
-        }
-        else if (data<node.data){
-            node.left=remove(node.left,data);
+        else if (value>node.data){
+            node.right =remove(node.right,value);
         }
         else {
-            // work
-            if (node.left!=null&&node.right!=null){
-                int lmax =max(node.left);
-                node.data=lmax;
-                node.left=remove(node.left,lmax);
-            }
-            else if (node.left!=null){
-                return node.left;
-            }
-            else if (node.right!=null){
+            if (node.left==null){
                 return node.right;
             }
-            else {
-                return null;
-            }
+            else if (node.right==null)
+                return node.left;
+           node.data =minvalue(node.right);
+           node.right= remove(node.right,node.data);
         }
         return node;
     }
-    public int max(node node ){
-        if(node.right!=null){
-            return max(node.right);
+    static int minvalue(node node){
+        int min =node.data;
+        while (node.left!=null){
+            min =node.left.data;
+            node =node.left;
         }
-        else
-            return node.data;
+        return min;
+    }
+    static void preorder(node node ){
+        if (node==null){
+            return;
+        }
+      System.out.print(node.data+" ");
+        preorder(node.left);
+        preorder(node.right);
     }
 }
